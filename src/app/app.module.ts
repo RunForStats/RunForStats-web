@@ -11,6 +11,8 @@ import { NavbarComponent } from './layout/navbar/navbar.component';
 import { MapComponent } from './components/map/map.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 
+import { LeafletModule } from '@asymmetrik/ngx-leaflet';
+
 
 
 
@@ -27,6 +29,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
+    LeafletModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]
