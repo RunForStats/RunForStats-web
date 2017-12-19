@@ -9,6 +9,7 @@ import { HomeComponent } from './components/home/home.component';
 import { FooterComponent } from './layout/footer/footer.component';
 import { NavbarComponent } from './layout/navbar/navbar.component';
 import { MapComponent } from './components/map/map.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
 
 
 
@@ -20,7 +21,8 @@ import { MapComponent } from './components/map/map.component';
     HomeComponent,
     FooterComponent,
     NavbarComponent,
-    MapComponent
+    MapComponent,
+    DashboardComponent
   ],
   imports: [
     BrowserModule,

@@ -4,6 +4,7 @@ import {RouterModule, Routes} from "@angular/router";
 import {PageNotFoundComponent} from "../components/page-not-found/page-not-found.component";
 import {HomeComponent} from "../components/home/home.component";
 import {MapComponent} from "../components/map/map.component";
+import {DashboardComponent} from "../components/dashboard/dashboard.component";
 
 
 
@@ -17,6 +18,11 @@ const appRoutes: Routes = [
     path: 'map',
     component: MapComponent,
     data: { title: 'Map' }
+  },
+  {
+    path: 'dashboard',
+    component: DashboardComponent,
+    data: { title: 'Dashboard' }
   },
   { path: '',
     redirectTo: '/home',
