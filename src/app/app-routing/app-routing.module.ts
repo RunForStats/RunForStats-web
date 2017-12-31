@@ -5,10 +5,14 @@ import {PageNotFoundComponent} from "../components/page-not-found/page-not-found
 import {HomeComponent} from "../components/home/home.component";
 import {MapComponent} from "../components/map/map.component";
 import {DashboardComponent} from "../components/dashboard/dashboard.component";
+import {AuthGuard} from "./AuthGuard";
+import {LoginComponent} from "../components/login/login.component";
 
 
 
 const appRoutes: Routes = [
+
+  { path: 'login', component: LoginComponent },
   {
     path: 'home',
     component: HomeComponent,
@@ -22,7 +26,9 @@ const appRoutes: Routes = [
   {
     path: 'dashboard',
     component: DashboardComponent,
-    data: { title: 'Dashboard' }
+    data: { title: 'Dashboard',},
+    canActivate: [AuthGuard]
+
   },
   { path: '',
     redirectTo: '/home',

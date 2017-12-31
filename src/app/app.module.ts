@@ -12,6 +12,14 @@ import { MapComponent } from './components/map/map.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
+import {UserService} from "./services/user.service";
+import {AuthenticationService} from "./services/authentication.service";
+import {BaseRequestOptions} from "@angular/http";
+import {MockBackend} from "@angular/http/testing";
+import {fakeBackendProvider} from "./services/fakebackendFactory";
+import {AuthGuard} from "./app-routing/AuthGuard";
+import { LoginComponent } from './components/login/login.component';
+import {FormsModule} from "@angular/forms";
 
 
 
@@ -24,14 +32,24 @@ import { LeafletModule } from '@asymmetrik/ngx-leaflet';
     FooterComponent,
     NavbarComponent,
     MapComponent,
-    DashboardComponent
+    DashboardComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
+    FormsModule,
     LeafletModule.forRoot()
   ],
-  providers: [],
+  providers: [
+    AuthGuard,
+    AuthenticationService,
+    UserService,
+    // providers used to create fake backend
+    fakeBackendProvider,
+    MockBackend,
+    BaseRequestOptions
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
