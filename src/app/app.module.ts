@@ -20,6 +20,7 @@ import {fakeBackendProvider} from "./services/fakebackendFactory";
 import {AuthGuard} from "./app-routing/AuthGuard";
 import { LoginComponent } from './components/login/login.component';
 import {FormsModule} from "@angular/forms";
+import { StravaAuthorizationComponent } from './components/strava-authorization/strava-authorization.component';
 
 
 
@@ -33,7 +34,8 @@ import {FormsModule} from "@angular/forms";
     NavbarComponent,
     MapComponent,
     DashboardComponent,
-    LoginComponent
+    LoginComponent,
+    StravaAuthorizationComponent
   ],
   imports: [
     BrowserModule,
