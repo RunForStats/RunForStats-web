@@ -14,6 +14,7 @@ export class LoginComponent implements OnInit {
   model: any = {};
   loading = false;
   error = '';
+  success = '';
   code:string;
 
   constructor(
@@ -42,14 +43,13 @@ export class LoginComponent implements OnInit {
     this.loading = true;
     this.authenticationService.login(code)
       .subscribe(result => {
-        if (result === true) {
-          // login successful
-          this.router.navigate(['/']);
-        } else {
+        console.log(result);
+        this.success = JSON.stringify(result);
+      }, error => {
           // login failed
-          this.error = 'Username or password is incorrect';
+          this.error = error;
           this.loading = false;
-        }
+
       });
   }
 }

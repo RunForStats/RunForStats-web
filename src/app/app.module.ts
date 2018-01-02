@@ -14,13 +14,11 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import {UserService} from "./services/user.service";
 import {AuthenticationService} from "./services/authentication.service";
-import {BaseRequestOptions} from "@angular/http";
-import {MockBackend} from "@angular/http/testing";
-import {fakeBackendProvider} from "./services/fakebackendFactory";
 import {AuthGuard} from "./app-routing/AuthGuard";
 import { LoginComponent } from './components/login/login.component';
 import {FormsModule} from "@angular/forms";
-import { StravaAuthorizationComponent } from './components/strava-authorization/strava-authorization.component';
+import {Http, HttpModule} from "@angular/http";
+
 
 
 
@@ -34,10 +32,10 @@ import { StravaAuthorizationComponent } from './components/strava-authorization/
     NavbarComponent,
     MapComponent,
     DashboardComponent,
-    LoginComponent,
-    StravaAuthorizationComponent
+    LoginComponent
   ],
   imports: [
+    HttpModule,
     BrowserModule,
     AppRoutingModule,
     FormsModule,
@@ -46,11 +44,7 @@ import { StravaAuthorizationComponent } from './components/strava-authorization/
   providers: [
     AuthGuard,
     AuthenticationService,
-    UserService,
-    // providers used to create fake backend
-    fakeBackendProvider,
-    MockBackend,
-    BaseRequestOptions
+    UserService
   ],
   bootstrap: [AppComponent]
 })
