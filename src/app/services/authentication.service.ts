@@ -9,21 +9,21 @@ export class AuthenticationService {
 
   constructor(private http: Http) {
     // set token if saved in local storage
-    var currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    this.token = currentUser && currentUser.token;
+    var stravaToken = JSON.parse(localStorage.getItem('stravaToken'));
+    this.token = stravaToken && stravaToken.token;
   }
 
-  login(username: string, password: string): Observable<boolean> {
-    return this.http.post('/api/authenticate', JSON.stringify({ username: username, password: password }))
+  login(code:string ): Observable<boolean> {
+    return this.http.get('https://api.runforstats.com/exchange?state=&code=' + code)
       .map((response: Response) => {
         // login successful if there's a jwt token in the response
-        let token = response.json() && response.json().token;
-        if (token) {
+        let jsonResponse = response.json();
+        if (jsonResponse) {
           // set token property
-          this.token = token;
+          this.token = jsonResponse.access_token;
 
           // store username and jwt token in local storage to keep user logged in between page refreshes
-          localStorage.setItem('currentUser', JSON.stringify({ username: username, token: token }));
+          localStorage.setItem('stravaToken', JSON.stringify({ username: jsonResponse.athlete.firstname, token: this.token }));
 
           // return true to indicate successful login
           return true;
@@ -37,6 +37,6 @@ export class AuthenticationService {
   logout(): void {
     // clear token remove user from local storage to log user out
     this.token = null;
-    localStorage.removeItem('currentUser');
+    localStorage.removeItem('stravaToken');
   }
 }

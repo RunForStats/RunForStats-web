@@ -7,13 +7,12 @@ import {MapComponent} from "../components/map/map.component";
 import {DashboardComponent} from "../components/dashboard/dashboard.component";
 import {AuthGuard} from "./AuthGuard";
 import {LoginComponent} from "../components/login/login.component";
-import {StravaAuthorizationComponent} from "../components/strava-authorization/strava-authorization.component";
 
 
 
 const appRoutes: Routes = [
 
-  { path: 'login', component: StravaAuthorizationComponent , pathMatch: 'full'},
+  { path: 'login', component: LoginComponent},
   {
     path: 'home',
     component: HomeComponent,
