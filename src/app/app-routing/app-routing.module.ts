@@ -26,7 +26,7 @@ const appRoutes: Routes = [
   {
     path: 'dashboard',
     component: DashboardComponent,
-    data: { title: 'Dashboard',},
+    data: { title: 'Dashboard'},
     canActivate: [AuthGuard]
 
   },

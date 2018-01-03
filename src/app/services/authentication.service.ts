@@ -17,6 +17,7 @@ export class AuthenticationService {
   login(code:string ): Observable<Response> {
     console.log("service was called with code " + code);
     console.log('https://api.runforstats.com/exchange?state=&code=' + code);
+
     return this.http.get('https://api.runforstats.com/exchange?state=&code=' + code)
       .map((response: Response) => {
 
@@ -26,6 +27,7 @@ export class AuthenticationService {
           // set token property
           //this.token = jsonResponse.access_token;
           this.token = JSON.stringify(jsonResponse);
+
 
           // store username and jwt token in local storage to keep user logged in between page refreshes
           //localStorage.setItem('stravaToken', JSON.stringify({ username: jsonResponse.athlete.firstname, token: this.token }));
