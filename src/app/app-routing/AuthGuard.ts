@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Router, CanActivate } from '@angular/router';
+import {Router, CanActivate, NavigationStart, NavigationEnd} from '@angular/router';
+import {AuthenticationService} from "../services/authentication.service";
 
 @Injectable()
 export class AuthGuard implements CanActivate {
 
-  constructor(private router: Router) { }
+  constructor(private router: Router) {
+  }
 
   canActivate() {
     if (localStorage.getItem('stravaToken')) {

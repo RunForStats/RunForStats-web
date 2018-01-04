@@ -1,5 +1,5 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
 import {RouterModule, Routes} from "@angular/router";
 import {PageNotFoundComponent} from "../components/page-not-found/page-not-found.component";
 import {HomeComponent} from "../components/home/home.component";
@@ -9,32 +9,37 @@ import {AuthGuard} from "./AuthGuard";
 import {LoginComponent} from "../components/login/login.component";
 
 
-
 const appRoutes: Routes = [
 
-  { path: 'login', component: LoginComponent},
+  {
+    path: 'login',
+    component: LoginComponent
+  },
+  {
+    path: '',
+    redirectTo: '/home',
+    pathMatch: 'full'
+  },
   {
     path: 'home',
     component: HomeComponent,
-    data: { title: 'Home' }
+    data: {title: 'Home'}
   },
   {
     path: 'map',
     component: MapComponent,
-    data: { title: 'Map' }
+    data: {title: 'Map'},
+    canActivate: [AuthGuard]
   },
   {
     path: 'dashboard',
     component: DashboardComponent,
-    data: { title: 'Dashboard'},
+    data: {title: 'Dashboard'},
     canActivate: [AuthGuard]
 
   },
-  { path: '',
-    redirectTo: '/home',
-    pathMatch: 'full'
-  },
-  { path: '**', component: PageNotFoundComponent }
+
+  {path: '**', component: PageNotFoundComponent}
 ];
 
 @NgModule({
@@ -51,4 +56,5 @@ const appRoutes: Routes = [
   ],
   declarations: []
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {
+}

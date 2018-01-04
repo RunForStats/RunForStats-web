@@ -46,7 +46,7 @@ export class LoginComponent implements OnInit {
       .subscribe(result => {
         console.log(result);
 
-        this.success = "LOGGED SUCCESSFULLY:  " + JSON.stringify(result);
+        this.success = JSON.stringify(result);
       }, error => {
         // login failed
         this.error = error;
