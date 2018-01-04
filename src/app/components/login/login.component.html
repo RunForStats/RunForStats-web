@@ -1,0 +1,20 @@
+<div class="col-12 col-md-9 col-xl-8 py-md-3 pl-md-5 bd-content">
+
+<div class="signup-button" *ngIf="!success">
+
+  <a (click)="connectToStrava()" *ngIf="!logged"> <img src="assets/img/strava/strava-connect-button.svg" width="220" alt="Connect to Strava"> </a>
+
+</div>
+
+
+<div *ngIf="error" class="alert alert-danger">{{error}}</div>
+
+
+
+
+<div class="alert alert-success" style="overflow-wrap: break-word" role="alert" *ngIf="success">
+  <h4 class="alert-heading">Logged!</h4>
+  <p>{{success}}</p>
+</div>
+
+</div>

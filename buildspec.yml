@@ -1,8 +1,8 @@
 version: 0.1
 environment_variables:
     plaintext:
-        S3_BUCKET: "runforstats.com"
-        BUILD_ENV: "prod"
+        S3_BUCKET: "dev.runforstats.com"
+        BUILD_ENV: "dev"
 phases:
     install:
         commands:

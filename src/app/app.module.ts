@@ -12,6 +12,13 @@ import { MapComponent } from './components/map/map.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
+import {UserService} from "./services/user.service";
+import {AuthenticationService} from "./services/authentication.service";
+import {AuthGuard} from "./app-routing/AuthGuard";
+import { LoginComponent } from './components/login/login.component';
+import {FormsModule} from "@angular/forms";
+import {Http, HttpModule} from "@angular/http";
+
 
 
 
@@ -24,14 +31,21 @@ import { LeafletModule } from '@asymmetrik/ngx-leaflet';
     FooterComponent,
     NavbarComponent,
     MapComponent,
-    DashboardComponent
+    DashboardComponent,
+    LoginComponent
   ],
   imports: [
+    HttpModule,
     BrowserModule,
     AppRoutingModule,
+    FormsModule,
     LeafletModule.forRoot()
   ],
-  providers: [],
+  providers: [
+    AuthGuard,
+    AuthenticationService,
+    UserService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
