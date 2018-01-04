@@ -1,6 +1,6 @@
 <div class="signup-button" *ngIf="!success">
 
-  <a (click)="connectToStrava()"> <img src="assets/img/strava/strava-connect-button.svg" width="220" alt="Connect to Strava"> </a>
+  <a (click)="connectToStrava()" *ngIf="!logged"> <img src="assets/img/strava/strava-connect-button.svg" width="220" alt="Connect to Strava"> </a>
 
 </div>
 

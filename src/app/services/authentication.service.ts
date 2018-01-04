@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {Injectable, EventEmitter, Output} from '@angular/core';
 import {Observable} from 'rxjs';
 import 'rxjs/add/operator/map';
 import {Http, Response, Headers, RequestOptions} from '@angular/http';
@@ -6,6 +6,9 @@ import {Http, Response, Headers, RequestOptions} from '@angular/http';
 @Injectable()
 export class AuthenticationService {
   public token: string;
+
+  @Output()
+  logged = new EventEmitter<boolean>();
 
   constructor(private http: Http) {
     // set token if saved in local storage
@@ -29,6 +32,9 @@ export class AuthenticationService {
         //localStorage.setItem('stravaToken', JSON.stringify({ username: jsonResponse.athlete.firstname, token: this.token }));
         localStorage.setItem('stravaToken', JSON.stringify({token: this.token}));
 
+
+        this.logged.emit(true);
+
         return jsonResponse;
 
       });
@@ -39,5 +45,17 @@ export class AuthenticationService {
     // clear token remove user from local storage to log user out
     this.token = null;
     localStorage.removeItem('stravaToken');
+    this.logged.emit(false);
+    location.reload();
+
+  }
+
+  isLogged() {
+
+    if (localStorage.getItem('stravaToken')) {
+      this.logged.emit(true);
+    } else {
+      this.logged.emit(false);
+    }
   }
 }

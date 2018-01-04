@@ -9,11 +9,16 @@ import {Router, ActivatedRoute} from "@angular/router";
 })
 export class NavbarComponent implements OnInit {
 
+  logged;
+
   constructor( private authenticationService:AuthenticationService,
                 private router: Router,
                private route:ActivatedRoute) { }
 
   ngOnInit() {
+
+    this.authenticationService.logged.subscribe(logged => { this.logged = logged } );
+
   }
 
   logout(){

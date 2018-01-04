@@ -15,6 +15,7 @@ export class LoginComponent implements OnInit {
   error = '';
   success = '';
   code: string;
+  logged;
 
   constructor(private router: Router,
               private route: ActivatedRoute,
@@ -24,6 +25,8 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     // reset login status
     //this.authenticationService.logout();
+
+    this.authenticationService.logged.subscribe(logged => {this.logged = logged});
 
     this.route
       .queryParams
