@@ -11,7 +11,7 @@ export class DashboardComponent implements OnInit {
 
   users: User[] = [];
 
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService ) { }
 
   ngOnInit() {
   }

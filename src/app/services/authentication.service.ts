@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import {Injectable} from '@angular/core';
+import {Observable} from 'rxjs';
 import 'rxjs/add/operator/map';
-import { Http, Response, Headers, RequestOptions } from '@angular/http';
+import {Http, Response, Headers, RequestOptions} from '@angular/http';
 
 @Injectable()
 export class AuthenticationService {
@@ -14,33 +14,25 @@ export class AuthenticationService {
   }
 
 
-  login(code:string ): Observable<Response> {
-    console.log("service was called with code " + code);
-    console.log('https://api.runforstats.com/exchange?state=&code=' + code);
-
+  login(code: string): Observable<Response> {
     return this.http.get('https://api.runforstats.com/exchange?state=&code=' + code)
       .map((response: Response) => {
 
-          // login successful if there's a jwt token in the response
+        // login successful if there's a jwt token in the response
         let jsonResponse = response.json();
 
-          // set token property
-          //this.token = jsonResponse.access_token;
-          this.token = JSON.stringify(jsonResponse);
+        // set token property
+        //this.token = jsonResponse.access_token;
+        this.token = JSON.stringify(jsonResponse);
 
+        // store username and jwt token in local storage to keep user logged in between page refreshes
+        //localStorage.setItem('stravaToken', JSON.stringify({ username: jsonResponse.athlete.firstname, token: this.token }));
+        localStorage.setItem('stravaToken', JSON.stringify({token: this.token}));
 
-          // store username and jwt token in local storage to keep user logged in between page refreshes
-          //localStorage.setItem('stravaToken', JSON.stringify({ username: jsonResponse.athlete.firstname, token: this.token }));
-          localStorage.setItem('stravaToken', JSON.stringify({ token: this.token }));
-
-
-          console.log("true");
-          // return true to indicate successful login
-          return jsonResponse;
+        return jsonResponse;
 
       });
   }
-
 
 
   logout(): void {

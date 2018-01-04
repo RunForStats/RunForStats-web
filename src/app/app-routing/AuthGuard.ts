@@ -13,8 +13,8 @@ export class AuthGuard implements CanActivate {
     }
 
     // not logged in so redirect to login page
-    var redirectUrl = "https://www.strava.com/oauth/authorize?client_id=18714&response_type=code&redirect_uri=http://runforstats.com/login";
-    window.location.href = redirectUrl;
+    this.router.navigate(['/login']);
+
     return false;
   }
 }
