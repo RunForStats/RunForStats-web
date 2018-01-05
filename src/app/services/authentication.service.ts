@@ -58,11 +58,13 @@ export class AuthenticationService {
   }
 
 
-  isLogged() {
+  isLogged(): boolean {
     if (localStorage.getItem('stravaToken')) {
       this.logged.emit(true);
+      return true;
     } else {
       this.logged.emit(false);
+      return false;
     }
   }
 }
