@@ -13,6 +13,7 @@ const appRoutes: Routes = [
 
   {
     path: 'login',
+    data: {title: 'Login'},
     component: LoginComponent
   },
   {

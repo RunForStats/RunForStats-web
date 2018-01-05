@@ -20,14 +20,16 @@ export class LoginComponent implements OnInit {
   constructor(private router: Router,
               private route: ActivatedRoute,
               private authenticationService: AuthenticationService) {
-  }
 
-  ngOnInit() {
-    // reset login status
-    //this.authenticationService.logout();
 
-    this.authenticationService.logged.subscribe(logged => {this.logged = logged});
+    this.authenticationService.logged.subscribe(logged => {
+      this.logged = logged;
+      this.onLogged(logged);
+    });
 
+
+    // when you navigate to the login page with the
+    // query parameter "code", the page will attempt the login
     this.route
       .queryParams
       .subscribe(params => {
@@ -40,21 +42,37 @@ export class LoginComponent implements OnInit {
 
   }
 
+  ngOnInit() {
+  }
+
+  // makes call to the authentication service with
+  // the code returned from strava
   login(code: string) {
     this.loading = true;
     this.authenticationService.login(code)
       .subscribe(result => {
-        console.log(result);
-
-        this.success = JSON.stringify(result);
+        this.onLogged(true);
       }, error => {
         // login failed
-        this.error = error;
+        this.onLogged(false);
+        console.log(error);
+        this.error = error.error;
         this.loading = false;
-
       });
   }
 
+
+  onLogged(isLogged: boolean) {
+    if (isLogged) {
+      this.success = "SUCCESS";
+    }
+    else {
+      this.success = null;
+    }
+  }
+
+
+  // connect to strava endpoint
   connectToStrava() {
     var host = window.location.origin;
     var redirectUrl = "https://www.strava.com/oauth/authorize?client_id=18714&response_type=code&redirect_uri=" + host + "/login";

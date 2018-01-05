@@ -21,8 +21,15 @@ export class AuthenticationService {
     return this.http.get('https://api.runforstats.com/exchange?state=&code=' + code)
       .map((response: Response) => {
 
+
         // login successful if there's a jwt token in the response
         let jsonResponse = response.json();
+
+        // if token is empty, launch error
+        if (jsonResponse == null) {
+          this.logged.emit(false);
+          throw Observable.throw("Access denied");
+        }
 
         // set token property
         //this.token = jsonResponse.access_token;
@@ -37,7 +44,7 @@ export class AuthenticationService {
 
         return jsonResponse;
 
-      });
+      })
   }
 
 
@@ -50,8 +57,8 @@ export class AuthenticationService {
 
   }
 
-  isLogged() {
 
+  isLogged() {
     if (localStorage.getItem('stravaToken')) {
       this.logged.emit(true);
     } else {
