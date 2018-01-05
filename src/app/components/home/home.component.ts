@@ -8,15 +8,9 @@ import {Router, ActivatedRoute, Params} from '@angular/router';
 })
 export class HomeComponent implements OnInit {
 
-  constructor(private activatedRoute: ActivatedRoute) { }
+  constructor() { }
 
   ngOnInit() {
-
-    this.activatedRoute.params.subscribe((params: Params) => {
-      let stravaCode = params['code'];
-      console.log(stravaCode);
-    });
-
 
   }
 

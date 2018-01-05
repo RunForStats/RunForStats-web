@@ -2,18 +2,23 @@ import {Injectable, EventEmitter, Output} from '@angular/core';
 import {Observable} from 'rxjs';
 import 'rxjs/add/operator/map';
 import {Http, Response, Headers, RequestOptions} from '@angular/http';
+import {User} from "../models/user";
 
 @Injectable()
 export class AuthenticationService {
   public token: string;
+  public currentUser: User;
 
   @Output()
   logged = new EventEmitter<boolean>();
 
   constructor(private http: Http) {
     // set token if saved in local storage
-    var stravaToken = JSON.parse(localStorage.getItem('stravaToken'));
-    this.token = stravaToken && stravaToken.token;
+    var stravaToken = localStorage.getItem('stravaToken');
+    var stravaUser = JSON.parse(localStorage.getItem('stravaUser'));
+    this.token = stravaToken;
+    this.currentUser = stravaUser;
+
   }
 
 
@@ -33,11 +38,15 @@ export class AuthenticationService {
 
         // set token property
         //this.token = jsonResponse.access_token;
-        this.token = JSON.stringify(jsonResponse);
+        this.token = jsonResponse['access_token'];
+        this.currentUser = jsonResponse['athlete'];
 
-        // store username and jwt token in local storage to keep user logged in between page refreshes
+        console.log("Welcome " + this.currentUser.username);
+
+        // store username and jwt token in local storage to keep currentUser logged in between page refreshes
         //localStorage.setItem('stravaToken', JSON.stringify({ username: jsonResponse.athlete.firstname, token: this.token }));
-        localStorage.setItem('stravaToken', JSON.stringify({token: this.token}));
+        localStorage.setItem('stravaToken', this.token );
+        localStorage.setItem('stravaUser', JSON.stringify(jsonResponse['athlete']) );
 
 
         this.logged.emit(true);
@@ -49,9 +58,10 @@ export class AuthenticationService {
 
 
   logout(): void {
-    // clear token remove user from local storage to log user out
+    // clear token remove currentUser from local storage to log currentUser out
     this.token = null;
     localStorage.removeItem('stravaToken');
+    localStorage.removeItem('stravaUser');
     this.logged.emit(false);
     location.reload();
 
