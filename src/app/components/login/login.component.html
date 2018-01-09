@@ -1,4 +1,4 @@
-<div class="col-12 col-md-9 col-xl-8 py-md-3 pl-md-5 bd-content">
+<div class="login">
 
 <div class="signup-button" *ngIf="!success">
 
@@ -8,13 +8,13 @@
 
 
 
-  <div class="alert alert-danger" style="overflow-wrap: break-word" role="alert" *ngIf="error">
+  <div class="alert alert-danger col-12 col-md-9 col-xl-8 py-md-3 pl-md-5 bd-content" style="overflow-wrap: break-word" role="alert" *ngIf="error">
     <h4 class="alert-heading">Not logged!</h4>
     <p>{{error}}</p>
   </div>
 
 
-<div class="alert alert-success" style="overflow-wrap: break-word" role="alert" *ngIf="success">
+<div class="alert alert-success col-12 col-md-9 col-xl-8 py-md-3 pl-md-5 bd-content" style="overflow-wrap: break-word" role="alert" *ngIf="success">
   <h4 class="alert-heading">Logged!</h4>
   <p>{{success}}</p>
 </div>
