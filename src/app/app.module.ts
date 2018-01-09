@@ -20,6 +20,7 @@ import {FormsModule} from "@angular/forms";
 import {Http, HttpModule} from "@angular/http";
 import {GeocodingService} from "./services/geocoding.service";
 import {MapService} from "./services/map.service";
+import {StravaService} from "./services/strava.service";
 
 
 @NgModule({
@@ -43,6 +44,7 @@ import {MapService} from "./services/map.service";
     AuthGuard,
     AuthenticationService,
     UserService,
+    StravaService,
     MapService,
     GeocodingService
   ],

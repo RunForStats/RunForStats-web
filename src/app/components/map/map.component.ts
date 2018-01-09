@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
 import 'leaflet';
 import 'leaflet.heat';
 import {Http} from "@angular/http";
 import {MapService} from "../../services/map.service";
 import {GeocodingService} from "../../services/geocoding.service";
+import {StravaService} from "../../services/strava.service";
 // Add this line to remove typescript errors
 declare var L: any;
 
@@ -21,7 +22,10 @@ export class MapComponent implements OnInit {
   mymap;
   private layersControl;
 
-  constructor(private mapService: MapService, private geocoder: GeocodingService, private http:Http) {
+  constructor(private mapService: MapService,
+              private geocoder: GeocodingService,
+              private stravaService: StravaService,
+              private http: Http) {
   }
 
   ngOnInit(): void {
@@ -40,7 +44,7 @@ export class MapComponent implements OnInit {
 
 
     var tl = this.mapService.baseMaps.CartoDB_DarkMatter;
-    this.layersControl = new L.Control.Layers(null,null).addTo(this.map);
+    this.layersControl = new L.Control.Layers(null, null).addTo(this.map);
     this.layersControl.addBaseLayer(tl, 'Dark Map');
     tl.addTo(this.map);
 
@@ -52,26 +56,26 @@ export class MapComponent implements OnInit {
       );
 
 
-
-
     this.http.get('assets/model/myjsonfile.json')
-      .subscribe(res =>
-      {
+      .subscribe(res => {
         this.showHeatmap(res.json(), 'ciccio', 'blue');
       });
 
 
     this.http.get('assets/model/myjsonfile1.json')
-      .subscribe(res =>
-      {
+      .subscribe(res => {
         this.showHeatmap(res.json(), 'blascone', 'red');
       });
+
+
+    this.stravaService.getUserActivities().subscribe(activities => {
+      activities.map((activity) => console.log(activity.name));
+    })
 
   }
 
 
-
-  showHeatmap(json, name, color){
+  showHeatmap(json, name, color) {
 
     var heat = L.heatLayer(json, {radius: 10});
     var races = L.featureGroup();
@@ -81,12 +85,12 @@ export class MapComponent implements OnInit {
     var map = this.map;
 
     // each point
-    json.map( function(p){
+    json.map(function (p) {
       var latLng = L.latLng(p); // get latLng
 
-      if (lastLatLng && map.distance(latLng, lastLatLng)>100){
+      if (lastLatLng && map.distance(latLng, lastLatLng) > 100) {
         // distance > 100 meters: new race
-        L.polyline(currentRacePoints, {	weight: 1, opacity: 0.4, color: color }).addTo(races);
+        L.polyline(currentRacePoints, {weight: 1, opacity: 0.4, color: color}).addTo(races);
         currentRacePoints = [];
 
         count++;
@@ -97,19 +101,14 @@ export class MapComponent implements OnInit {
       lastLatLng = latLng;
     });
 
-    L.polyline(currentRacePoints, {	weight: 1, opacity: 0.4, color: color }).addTo(races); // last race
+    L.polyline(currentRacePoints, {weight: 1, opacity: 0.4, color: color}).addTo(races); // last race
 
 
+    this.layersControl.addOverlay(races, 'Races ' + name);
 
-
-
-    this.layersControl.addOverlay(races, 'Races '+name);
-
-    this.layersControl.addOverlay(heat, 'Heatmap '+name);
+    this.layersControl.addOverlay(heat, 'Heatmap ' + name);
 
     //bootbox.alert(count + ' races found for ' + name);
-
-
 
 
   }
