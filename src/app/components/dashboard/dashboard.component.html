@@ -28,20 +28,15 @@
           <div class="height-250 overflow-hidden">
             <img class="img-fluid" src="http://demo.flatlogic.com/sing-wrapbootstrap-3.8.0/angular/assets/images/pictures/19.jpg">
           </div>
-          <div class="btn-toolbar">
-            <a href="#" class="btn btn-outline btn-sm pull-right">
-              <i class="fa fa-twitter mr-xs"></i>
-              Follow
-            </a>
-          </div>
+
         </div>
         <div class="row">
           <div class="col-md-5 col-12 text-center">
             <div class="post-user post-user-profile">
               <span class="thumb-xl">
-                <img class="rounded-circle" src="http://demo.flatlogic.com/sing-wrapbootstrap-3.8.0/angular/assets/images/people/a5.jpg" alt="...">
+                <img class="rounded-circle" src="{{user.profile}}" alt="...">
               </span>
-              <h5 class="fw-normal">Adam <span class="fw-semi-bold">Johns</span></h5>
+              <h5 class="fw-normal">{{user.firstname}} <span class="fw-semi-bold">{{user.lastname}}</span></h5>
               <p>UI/UX designer</p>
               <a href="#" class="btn btn-danger btn-sm mt">
                 &nbsp;Send
@@ -49,8 +44,8 @@
               </a>
               <ul class="contacts">
                 <li><i class="fa fa-lg fa-phone fa-fw mr-xs"></i><a href="#"> +375 29 555-55-55</a></li>
-                <li><i class="fa fa-lg fa-envelope fa-fw mr-xs"></i><a href="#"> psmith@example.com</a></li>
-                <li><i class="fa fa-lg fa-map-marker fa-fw mr-xs"></i><a href="#"> Minsk, Belarus</a></li>
+                <li><i class="fa fa-lg fa-envelope fa-fw mr-xs"></i><a href="#"> {{user.username}}</a></li>
+                <li><i class="fa fa-lg fa-map-marker fa-fw mr-xs"></i><a href="#"> {{user.city}}, {{user.country}}</a></li>
               </ul>
             </div>
           </div>
