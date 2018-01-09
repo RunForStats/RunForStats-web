@@ -6,7 +6,7 @@ import {AuthenticationService} from "../../services/authentication.service";
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.css']
+  styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
 
@@ -17,7 +17,7 @@ export class DashboardComponent implements OnInit {
 
     this.authenticationService.logged.subscribe(logged => {
       if (logged) {
-        this.user = this.authenticationService.currentUser
+        this.user = this.authenticationService.currentUser;
       }
     });
   }

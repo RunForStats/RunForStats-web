@@ -1,0 +1,182 @@
+/***********************/
+/*    Animate.css      */
+/***********************/
+
+.animated{
+  animation-duration: .5s;
+}
+
+/***********************/
+/*       Pace          */
+/***********************/
+.pace .pace-progress{
+  background: theme-color('primary');
+  position: absolute;
+  top: $navbar-height;
+}
+
+.pace .pace-activity{
+  position: absolute;
+  top: 65px;
+  border-width: 1px;
+  left: 15px;
+  right: auto;
+  width: 18px;
+  height: 18px;
+  border-top-color: theme-color('primary');
+  border-left-color: theme-color('primary');
+}
+
+
+
+.pace .pace-progress-inner{
+  right: -10px;
+  width: 10px;
+}
+
+/***********************/
+/*glyphicons-halflings */
+/***********************/
+
+.glyphicon {
+  top: auto;
+  vertical-align: middle;
+}
+
+.glyphicon-comment:before {
+  content:"\E111";
+}
+
+/***********************/
+/*    Font Awesome     */
+/***********************/
+
+.fa {
+  vertical-align: middle;
+}
+
+.fa-sm {
+  font-size: $font-size-sm;
+}
+
+.fa-lg {
+  font-size: 1.2rem;
+}
+
+.btn > .fa, .circle > .fa {
+  vertical-align: baseline;
+}
+
+.#{$fa-css-prefix}-spin-fast {
+  -webkit-animation: fa-spin 1s infinite linear;
+  -moz-animation: fa-spin 1s infinite linear;
+  -o-animation: fa-spin 1s infinite linear;
+  animation: fa-spin 1s infinite linear;
+}
+
+/***********************/
+/*    NG2 DateTime     */
+/***********************/
+
+datetime {
+  .fa-clock-o {
+    margin-top: 4px;
+  }
+}
+
+
+/***********************/
+/*    NG2 Select2      */
+/***********************/
+
+.select2-container--bootstrap .select2-selection--single {
+  height: 35px !important;
+}
+
+.select2-container--bootstrap .select2-selection--multiple {
+  .select2-selection__choice {
+    margin: $spacer/2 0 0 $spacer/2 !important;
+  }
+}
+
+/***********************/
+/*  Bootstrap Select   */
+/***********************/
+
+.selectpicker.form-control {
+  height: auto;
+}
+
+.bootstrap-select {
+  z-index: 1;
+
+  &.show .dropdown-menu.inner {
+    display: block;
+  }
+
+  &.show {
+    z-index: 3;
+    display: inline-block !important;
+  }
+}
+
+/***********************/
+/*     Select 2        */
+/***********************/
+
+.select2-container .select2-choice abbr {
+  background: url('assets/select2/select2.png') right top no-repeat;
+}
+
+.select2-container .select2-choice .select2-arrow b {
+  background: url('assets/select2/select2.png') no-repeat 0 1px;
+}
+
+.select2-search input {
+  background: #fff url('assets/select2/select2.png') no-repeat 100% -22px;
+  background: url('assets/select2/select2.png') no-repeat 100% -22px, -webkit-gradient(linear, left bottom, left top, color-stop(0.85, #fff), color-stop(0.99, #eee));
+  background: url('assets/select2/select2.png') no-repeat 100% -22px, -webkit-linear-gradient(center bottom, #fff 85%, #eee 99%);
+  background: url('assets/select2/select2.png') no-repeat 100% -22px, -moz-linear-gradient(center bottom, #fff 85%, #eee 99%);
+  background: url('assets/select2/select2.png') no-repeat 100% -22px, linear-gradient(to bottom, #fff 85%, #eee 99%) 0 0;
+}
+
+html[dir="rtl"] .select2-search input {
+  background: #fff url('assets/select2/select2.png') no-repeat -37px -22px;
+  background: url('assets/select2/select2.png') no-repeat -37px -22px, -webkit-gradient(linear, left bottom, left top, color-stop(0.85, #fff), color-stop(0.99, #eee));
+  background: url('assets/select2/select2.png') no-repeat -37px -22px, -webkit-linear-gradient(center bottom, #fff 85%, #eee 99%);
+  background: url('assets/select2/select2.png') no-repeat -37px -22px, -moz-linear-gradient(center bottom, #fff 85%, #eee 99%);
+  background: url('assets/select2/select2.png') no-repeat -37px -22px, linear-gradient(to bottom, #fff 85%, #eee 99%) 0 0;
+}
+
+.select2-search-choice-close {
+  background: url('assets/select2/select2.png') right top no-repeat;
+}
+
+.select2-search input.select2-active {
+  background: #fff url('assets/select2/select2-spinner.gif') no-repeat 100%;
+  background: url('assets/select2/select2-spinner.gif') no-repeat 100%, -webkit-gradient(linear, left bottom, left top, color-stop(0.85, #fff), color-stop(0.99, #eee));
+  background: url('assets/select2/select2-spinner.gif') no-repeat 100%, -webkit-linear-gradient(center bottom, #fff 85%, #eee 99%);
+  background: url('assets/select2/select2-spinner.gif') no-repeat 100%, -moz-linear-gradient(center bottom, #fff 85%, #eee 99%);
+  background: url('assets/select2/select2-spinner.gif') no-repeat 100%, linear-gradient(to bottom, #fff 85%, #eee 99%) 0 0;
+}
+
+.select2-more-results.select2-active {
+  background: #f4f4f4 url('assets/select2/select2-spinner.gif') no-repeat 100%;
+}
+
+.select2-container-multi .select2-choices .select2-search-field input.select2-active {
+  background: #fff url('assets/select2/select2-spinner.gif') no-repeat 100% !important;
+}
+
+/***********************/
+/*  Retina-ize icons   */
+/***********************/
+
+@media only screen and (-webkit-min-device-pixel-ratio: 1.5), only screen and (min-resolution: 2dppx)  {
+  .select2-search input,
+  .select2-search-choice-close,
+  .select2-container .select2-choice abbr,
+  .select2-container .select2-choice .select2-arrow b {
+    background-image: url('assets/select2/select2x2.png') !important;
+  }
+}

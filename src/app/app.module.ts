@@ -11,16 +11,15 @@ import { NavbarComponent } from './layout/navbar/navbar.component';
 import { MapComponent } from './components/map/map.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 
-import { LeafletModule } from '@asymmetrik/ngx-leaflet';
+
 import {UserService} from "./services/user.service";
 import {AuthenticationService} from "./services/authentication.service";
 import {AuthGuard} from "./app-routing/AuthGuard";
 import { LoginComponent } from './components/login/login.component';
 import {FormsModule} from "@angular/forms";
 import {Http, HttpModule} from "@angular/http";
-
-
-
+import {GeocodingService} from "./services/geocoding.service";
+import {MapService} from "./services/map.service";
 
 
 @NgModule({
@@ -38,13 +37,14 @@ import {Http, HttpModule} from "@angular/http";
     HttpModule,
     BrowserModule,
     AppRoutingModule,
-    FormsModule,
-    LeafletModule.forRoot()
+    FormsModule
   ],
   providers: [
     AuthGuard,
     AuthenticationService,
-    UserService
+    UserService,
+    MapService,
+    GeocodingService
   ],
   bootstrap: [AppComponent]
 })
