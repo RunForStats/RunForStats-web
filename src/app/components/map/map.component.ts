@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 
 import 'leaflet';
 import 'leaflet.heat';
+import 'leaflet-sidebar';
 import {Http} from "@angular/http";
 import {MapService} from "../../services/map.service";
 import {GeocodingService} from "../../services/geocoding.service";
@@ -48,6 +49,20 @@ export class MapComponent implements OnInit {
     this.layersControl.addBaseLayer(tl, 'Dark Map');
     tl.addTo(this.map);
 
+
+
+    var sidebar = L.control.sidebar('sidebar', {
+      closeButton: true,
+      position: 'left'
+    });
+
+
+    this.map.addControl(sidebar);
+    setTimeout(function () {
+      sidebar.show();
+    }, 500);
+
+
     //this.mapService.map = this.map;
     this.geocoder.getCurrentLocation()
       .subscribe(
@@ -69,7 +84,10 @@ export class MapComponent implements OnInit {
 
 
     this.stravaService.getUserActivities().subscribe(activities => {
-      activities.map((activity) => console.log(activity.name));
+      var siderBarContent = "<h3>Last 30 runs: </h3>";
+      activities.map((activity) => siderBarContent+= activity.name +"</br>" );
+
+      sidebar.setContent(siderBarContent);
     })
 
   }
