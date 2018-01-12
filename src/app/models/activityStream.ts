@@ -17,11 +17,11 @@ export class ActivityStream {
     this._type = value;
   }
 
-  get data(): any[] {
+  get data(): Array<Array<number>> {
     return this._data;
   }
 
-  set data(value: Array) {
+  set data(value: Array<Array<number>>) {
     this._data = value;
   }
 
