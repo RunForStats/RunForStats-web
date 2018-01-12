@@ -58,7 +58,7 @@ export class MapComponent implements OnInit {
     });
 
 
-    this.siderBarContent = "<h3>Last 30 runs: </h3>";
+    this.siderBarContent = "<h3>Last 30 runs:</h3>";
     sidebar.setContent(this.siderBarContent);
 
 
