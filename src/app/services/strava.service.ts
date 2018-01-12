@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {Observable} from "rxjs";
 import { Http, Headers, RequestOptions, Response } from '@angular/http';
 import {Activity} from "../models/activity";
+import {ActivityStream} from "../models/activityStream";
 
 
 
@@ -30,6 +31,21 @@ export class StravaService {
 
     // get users from api
     return this.http.get('https://www.strava.com/api/v3/athlete/activities', options)
+      .map((response: Response) => response.json());
+  }
+
+
+  getActivityStream(activity: Activity): Observable<ActivityStream[]> {
+
+    // add authorization header with strava token
+    var access_token = localStorage.getItem('stravaToken');
+    let headers = new Headers({ 'Authorization': 'Bearer ' + access_token });
+    let options = new RequestOptions({ headers: headers });
+
+    var id = activity.id;
+    var types = "latlng";
+
+    return this.http.get('https://www.strava.com/api/v3/activities/'+ id +'/streams/' + types, options)
       .map((response: Response) => response.json());
   }
 

@@ -7,6 +7,7 @@ import {Http} from "@angular/http";
 import {MapService} from "../../services/map.service";
 import {GeocodingService} from "../../services/geocoding.service";
 import {StravaService} from "../../services/strava.service";
+import {Activity} from "../../models/activity";
 // Add this line to remove typescript errors
 declare var L: any;
 
@@ -22,6 +23,7 @@ export class MapComponent implements OnInit {
 
   mymap;
   private layersControl;
+  private siderBarContent;
 
   constructor(private mapService: MapService,
               private geocoder: GeocodingService,
@@ -50,11 +52,14 @@ export class MapComponent implements OnInit {
     tl.addTo(this.map);
 
 
-
     var sidebar = L.control.sidebar('sidebar', {
       closeButton: true,
       position: 'left'
     });
+
+
+    this.siderBarContent = "<h3>Last 30 runs: </h3>";
+    sidebar.setContent(this.siderBarContent);
 
 
     this.map.addControl(sidebar);
@@ -83,12 +88,16 @@ export class MapComponent implements OnInit {
       });
 
 
-    this.stravaService.getUserActivities().subscribe(activities => {
-      var siderBarContent = "<h3>Last 30 runs: </h3>";
-      activities.map((activity) => siderBarContent+= activity.name +"</br>" );
-
-      sidebar.setContent(siderBarContent);
-    })
+    this.stravaService.getUserActivities().subscribe(
+      activities => {
+        activities.map(activity => {
+          this.stravaService.getActivityStream(activity).subscribe(streams => {
+            this.siderBarContent += activity.name + ": " + streams[0].data.length + " points </br>";
+            sidebar.setContent(this.siderBarContent);
+          });
+        });
+      }
+    );
 
   }
 
