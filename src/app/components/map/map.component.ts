@@ -35,7 +35,7 @@ export class MapComponent implements OnInit {
 
     this.map = L.map("map", {
       zoomControl: false,
-      center: L.latLng(40.731253, -73.996139),
+      center: L.latLng(41.90278349999999, 12.496365500000024),
       zoom: 12,
       minZoom: 4,
       maxZoom: 19
@@ -48,7 +48,7 @@ export class MapComponent implements OnInit {
 
     var tl = this.mapService.baseMaps.CartoDB_DarkMatter;
     this.layersControl = new L.Control.Layers(null, null).addTo(this.map);
-    this.layersControl.addBaseLayer(tl, 'Dark Map');
+    this.layersControl.addBaseLayer(tl, 'Last 30 runs');
     tl.addTo(this.map);
 
 
@@ -61,31 +61,31 @@ export class MapComponent implements OnInit {
     this.siderBarContent = "<h3>Last 30 runs:</h3>";
     sidebar.setContent(this.siderBarContent);
 
-
-    this.map.addControl(sidebar);
-    setTimeout(function () {
-      sidebar.show();
-    }, 500);
-
-
-    //this.mapService.map = this.map;
-    this.geocoder.getCurrentLocation()
-      .subscribe(
-        location => this.map.panTo([location.latitude, location.longitude]),
-        err => console.error(err)
-      );
+    // for the moment I am disabling the slidepanel
+    //this.map.addControl(sidebar);
+    // setTimeout(function () {
+    //   sidebar.show();
+    // }, 500);
 
 
-    this.http.get('assets/model/myjsonfile.json')
-      .subscribe(res => {
-        this.showHeatmap(res.json(), 'ciccio', 'blue');
-      });
+
+    // this.geocoder.getCurrentLocation()
+    //   .subscribe(
+    //     location => this.map.panTo([location.latitude, location.longitude]),
+    //     err => console.error(err)
+    //   );
 
 
-    this.http.get('assets/model/myjsonfile1.json')
-      .subscribe(res => {
-        this.showHeatmap(res.json(), 'blascone', 'red');
-      });
+    // this.http.get('assets/model/myjsonfile.json')
+    //   .subscribe(res => {
+    //     this.showHeatmap(res.json(), 'ciccio', 'blue');
+    //   });
+    //
+    //
+    // this.http.get('assets/model/myjsonfile1.json')
+    //   .subscribe(res => {
+    //     this.showHeatmap(res.json(), 'blascone', 'red');
+    //   });
 
 
     this.stravaService.getUserActivities().subscribe(
@@ -94,6 +94,9 @@ export class MapComponent implements OnInit {
           this.stravaService.getActivityStream(activity).subscribe(streams => {
             this.siderBarContent += activity.name + ": " + streams[0].data.length + " points </br>";
             sidebar.setContent(this.siderBarContent);
+
+            this.showHeatmap(streams[0].data, activity.name, 'green');
+
           });
         });
       }
@@ -130,13 +133,8 @@ export class MapComponent implements OnInit {
 
     L.polyline(currentRacePoints, {weight: 1, opacity: 0.4, color: color}).addTo(races); // last race
 
-
     this.layersControl.addOverlay(races, 'Races ' + name);
-
     this.layersControl.addOverlay(heat, 'Heatmap ' + name);
-
-    //bootbox.alert(count + ' races found for ' + name);
-
 
   }
 
