@@ -8,6 +8,7 @@ import {MapService} from "../../services/map.service";
 import {GeocodingService} from "../../services/geocoding.service";
 import {StravaService} from "../../services/strava.service";
 import {Activity} from "../../models/activity";
+import {forEach} from "@angular/router/src/utils/collection";
 // Add this line to remove typescript errors
 declare var L: any;
 
@@ -21,9 +22,13 @@ export class MapComponent implements OnInit {
   title = 'app';
   map;
 
-  mymap;
+
   private layersControl;
   private siderBarContent;
+  private heat = L.heatLayer([], {radius: 10});
+  private totalCoordinates= [];
+  private totalLines= [];
+  private cartoDb: TileLayer;
 
   constructor(private mapService: MapService,
               private geocoder: GeocodingService,
@@ -46,10 +51,10 @@ export class MapComponent implements OnInit {
     L.control.scale().addTo(this.map);
 
 
-    var tl = this.mapService.baseMaps.CartoDB_DarkMatter;
+    this.cartoDb = this.mapService.baseMaps.CartoDB_DarkMatter;
     this.layersControl = new L.Control.Layers(null, null).addTo(this.map);
-    this.layersControl.addBaseLayer(tl, 'Last 30 runs');
-    tl.addTo(this.map);
+    this.layersControl.addBaseLayer(this.cartoDb, 'Last 30 runs');
+    this.cartoDb.addTo(this.map);
 
 
     var sidebar = L.control.sidebar('sidebar', {
@@ -87,6 +92,11 @@ export class MapComponent implements OnInit {
     //     this.showHeatmap(res.json(), 'blascone', 'red');
     //   });
 
+    this.layersControl.addOverlay(this.heat, 'Heatmap ' + name);
+
+
+
+
 
     this.stravaService.getUserActivities().subscribe(
       activities => {
@@ -107,35 +117,50 @@ export class MapComponent implements OnInit {
 
   showHeatmap(json, name, color) {
 
-    var heat = L.heatLayer(json, {radius: 10});
-    var races = L.featureGroup();
-    var lastLatLng;
-    var currentRacePoints = [];
-    var count = 0;
+
+    // remove all layers
     var map = this.map;
+    this.map.eachLayer(function (layer) {
+      map.removeLayer(layer);
+    });
+
+
+
+    var races = L.featureGroup();
+    var currentRacePoints = [];
+
 
     // each point
     json.map(function (p) {
       var latLng = L.latLng(p); // get latLng
 
-      if (lastLatLng && map.distance(latLng, lastLatLng) > 100) {
-        // distance > 100 meters: new race
-        L.polyline(currentRacePoints, {weight: 1, opacity: 0.4, color: color}).addTo(races);
-        currentRacePoints = [];
-
-        count++;
+      if(latLng == null){
+        console.error('Latitude and Longitude must not be null');
+      } else if(isNaN(latLng.lat) || isNaN(latLng.lng)) {
+        console.error('Latitude and Longitude must be valid. lat='+latLng.lat+', lng='+latLng.lng);
       } else {
-        currentRacePoints.push(p);
+        currentRacePoints.push(latLng);
       }
-
-      lastLatLng = latLng;
     });
 
-    L.polyline(currentRacePoints, {weight: 1, opacity: 0.4, color: color}).addTo(races); // last race
 
-    this.layersControl.addOverlay(races, 'Races ' + name);
-    this.layersControl.addOverlay(heat, 'Heatmap ' + name);
+    this.totalCoordinates = this.totalCoordinates.concat(currentRacePoints);
 
+
+    var currentLine = L.polyline(currentRacePoints, {weight: 1, opacity: 0.4, color: color});
+    this.totalLines.push(currentLine);
+    this.layersControl.addOverlay(currentLine, 'Races ' + name);
+    this.totalLines.forEach(function(line){
+      line.addTo(races);
+    });
+    races.addTo(this.map);
+
+    this.layersControl.removeLayer(this.heat);
+    this.heat = L.heatLayer(this.totalCoordinates, {radius: 10});
+    this.layersControl.addOverlay(this.heat, 'Heatmap');
+
+    this.heat.addTo(this.map);
+    this.cartoDb.addTo(this.map);
   }
 
 
