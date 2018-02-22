@@ -28,7 +28,8 @@ export class MapComponent implements OnInit {
   private heat = L.heatLayer([], {radius: 10});
   private totalCoordinates= [];
   private totalLines= [];
-  private cartoDb: TileLayer;
+  private cartoDb: L.TileLayer;
+
 
   constructor(private mapService: MapService,
               private geocoder: GeocodingService,
