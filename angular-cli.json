@@ -1,0 +1,19 @@
+{
+    "apps": [
+      {
+        "styles": [
+          "styles.css",
+          "../node_modules/leaflet/dist/leaflet.css"
+        ],
+        "assets": [
+          "assets",
+          "favicon.ico",
+          {
+            "glob": "**/*",
+            "input": "../node_modules/leaflet/dist/images",
+            "output": "./assets/"
+          }
+        ]
+      }
+    ]
+  }

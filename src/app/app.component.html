@@ -1,0 +1,47 @@
+<header>
+	<div class="collapse bg-dark" id="navbarHeader">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-8 col-md-7 py-4">
+					<h4 class="text-white">About</h4>
+					<p class="text-muted">My name is Blasco. When I run I like to challenge myself with new personal records, I like to have charts and statistics
+						of my run and I like to compare it with my old ones. I must admit it, I like graphs and charts better than running!</p>
+					<h4>
+						<a  class="text-white" routerLink="heatmap" (click)="collapseNav();" >My Heatmap</a>     
+            					
+					</h4>
+					<p class="text-muted">Check out runforstats famous heatmap!</p>
+				</div>
+				<div class="col-sm-4 offset-md-1 py-4">
+					<h4 class="text-white">Contact</h4>
+					<ul class="list-unstyled">
+						<li>
+							<a href="http://www.blascone.it" class="text-white">Checkout blascone.it</a>
+						</li>
+						<li>
+							<a href="https://www.instagram.com/blascone/" class="text-white">Follow me on Instagram</a>
+						</li>
+						<li>
+							<a href="https://www.facebook.com/blasconeit" class="text-white">Like me on Facebook</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="navbar navbar-dark bg-dark box-shadow">
+		<div class="container d-flex justify-content-between">
+			<a routerLink="home" class="navbar-brand d-flex align-items-center">
+
+				<i class="fas fa-chart-line fa-lg"></i>&nbsp;&nbsp;
+				<strong>RunForStats</strong>
+			</a>
+			<button #navbarToggler  class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+		</div>
+	</div>
+</header>
+<main role="main" class="container">
+	<router-outlet></router-outlet>
+</main>

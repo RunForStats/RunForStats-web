@@ -1,0 +1,49 @@
+<h5><i class="fas fa-list-ul"></i> Activity list</h5>
+<div class="card border-secondary mb-3" *ngFor="let activity of activities; let i= index" [ngClass]="{'text-white bg-secondary': activity.id === active?.id}"
+ (click)="setActive(activity)">
+	<!-- <img class="card-img-top" src="..." alt="Card image cap"> -->
+	<!-- <div class="card-header">{{activity.athlete.id}}</div> -->
+	<div class="card-header"><strong>Blascone</strong></div>
+	<div class="card-body">
+		<h5 class="card-title"><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i> {{activity.name}}</h5>
+		<!-- <p class="card-text">{{activity.type}}</p> -->
+		<div class="media">
+			<div class="media-body">
+				<ul class="list-stats">
+					<li>
+						<div class="stat">
+							<div class="stat-subtext">Dist.</div>
+							<b class="stat-text">{{activity.distance | meters2kilometers}}
+                                        <span class="unit">km</span>
+                                    </b>
+						</div>
+					</li>
+					<li>
+						<div class="stat">
+							<div class="stat-subtext">Time</div>
+							<b class="stat-text">{{activity.moving_time | seconds2hours }}
+                                        <span class="unit">h</span>
+                                    </b>
+						</div>
+					</li>
+					<li>
+						<div class="stat">
+							<div class="stat-subtext">Avg Pace</div>
+							<b class="stat-text">{{activity.average_speed | paceCalculator | seconds2hours }}
+                                        <span class="unit">/km</span>
+                                    </b>
+						</div>
+					</li>
+					<li>
+						<div class="stat">
+							<div class="stat-subtext">Suffer score</div>
+							<b class="stat-text">{{activity.suffer_score}}</b>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div> <br/>
+		<p class="card-text"><small class="text-muted">{{activity.start_date}}}</small></p>
+	</div>
+
+</div>
