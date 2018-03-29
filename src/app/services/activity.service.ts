@@ -5,7 +5,7 @@ import { Activity } from '../models/activity.model';
 @Injectable()
 export class ActivityService {
 
-  endpoint: string = "https://mockactivities-jblcwvxsel.now.sh/";
+  endpoint = 'https://mockactivities-jblcwvxsel.now.sh/';
   activities: Activity[];
   active: Activity;
 

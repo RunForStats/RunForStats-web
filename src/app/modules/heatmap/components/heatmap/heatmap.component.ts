@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { MapService } from '../../services/map.service';
-import { GeocodingService } from '../../services/geocoding.service';
+import {Component, OnInit} from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 
-import { Router, ActivatedRoute } from '@angular/router';
-import { latLng, LatLng, tileLayer, circle, polygon } from 'leaflet';
+import {latLng, LatLng, tileLayer, circle, polygon} from 'leaflet';
 
+import * as L from 'leaflet';
+import 'leaflet.heat';
 
 
 @Component({
@@ -30,23 +30,36 @@ export class HeatmapComponent implements OnInit {
 
   layersControl = {
     baseLayers: this.baseLayers,
-    overlays: {
-      'Big Circle': circle([41.902, 12.4963], { radius: 5000 }),
-      'Big Square': polygon([[46.8, -121.55], [46.9, -121.55], [46.9, -121.7], [46.8, -121.7]])
-    }
-  }
+    overlays: []
+  };
 
   options = {
     layers: this.baseLayers.CartoDB_DarkMatter,
     center: latLng(41.90278349999999, 12.496365500000024),
     zoom: 12,
     minZoom: 4,
-    maxZoom: 19
+    maxZoom: 19,
+    zoomControl: false,
   };
 
-  constructor(private mapService: MapService, private geocoder: GeocodingService,
-    private router: Router,
-    private activatedRoute: ActivatedRoute) {
+
+  mapReady(map: L.Map) {
+    map.addControl(L.control.zoom({position: 'topright'}));
+
+    this.http.get('https://mockactivities-jblcwvxsel.now.sh/myjsonfile.json')
+      .subscribe(res => {
+        this.showHeatmap(map, res, 'ciccio', 'blue');
+      });
+
+
+    this.http.get('https://mockactivities-jblcwvxsel.now.sh/myjsonfile1.json')
+      .subscribe(res => {
+        this.showHeatmap(map, res, 'blascone', 'red');
+      });
+
+  }
+
+  constructor(private http: HttpClient) {
   }
 
 
@@ -57,35 +70,45 @@ export class HeatmapComponent implements OnInit {
   }
 
 
+  showHeatmap(map: L.Map, json, name, color) {
 
 
+    const totalLines = [];
+    let totalCoordinates = [];
 
-  // showHeatmap(json, name, color) {
+    const races = L.featureGroup();
+    const currentRacePoints = [];
 
-  //   var heat = L.heatLayer(json, { radius: 10 });
-  //   var races = L.featureGroup();
-  //   var lastLatLng;
-  //   var currentRacePoints = [];
-  //   var count = 0;
-  //   var map = this.map;
 
-  //   // each point
-  //   json.map(function (p) {
-  //     var latLng = L.latLng(p); // get latLng
-  //     if (lastLatLng && map.distance(latLng, lastLatLng) > 100) {
-  //       // distance > 100 meters: new race
-  //       L.polyline(currentRacePoints, { weight: 1, opacity: 0.4, color: color }).addTo(races);
-  //       currentRacePoints = [];
-  //       count++;
-  //     } else {
-  //       currentRacePoints.push(p);
-  //     }
-  //     lastLatLng = latLng;
-  //   });
-  //   L.polyline(currentRacePoints, { weight: 1, opacity: 0.4, color: color }).addTo(races);
-  //   this.layersControl.addOverlay(races, 'Races ' + name);
-  //   this.layersControl.addOverlay(heat, 'Heatmap ' + name);
-  // }
+    // each point
+    json.map(function (p) {
+      const latLng = L.latLng(p); // get latLng
+      if (latLng == null) {
+        console.error('Latitude and Longitude must not be null');
+      } else if (isNaN(latLng.lat) || isNaN(latLng.lng)) {
+        console.error('Latitude and Longitude must be valid. lat=' + latLng.lat + ', lng=' + latLng.lng);
+      } else {
+        currentRacePoints.push(latLng);
+      }
+    });
+
+
+    totalCoordinates = totalCoordinates.concat(currentRacePoints);
+    const currentLine = L.polyline(currentRacePoints, {weight: 1, opacity: 0.4, color: color});
+    totalLines.push(currentLine);
+    this.layersControl.overlays['Races ' + name] = currentLine;
+    totalLines.forEach(function (line) {
+      line.addTo(races);
+    });
+
+    const heat = L.heatLayer(totalCoordinates, {radius: 10});
+
+    const racesOverlayName = 'Races ' + name;
+    const heatmapOverlayName = 'Heatmap ' + name;
+
+    this.layersControl.overlays[racesOverlayName] = races;
+    this.layersControl.overlays[heatmapOverlayName] = heat;
+  }
 
 
 }
