@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MapService } from './services/map.service';
-import { GeocodingService } from './services/geocoding.service';
+
 
 import { PageHeatmapComponent } from './components/page-heatmap/page-heatmap.component'
 
@@ -18,13 +18,13 @@ const routes: Routes = [
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
-LeafletModule.forRoot()
+    LeafletModule.forRoot()
   ],
   declarations: [
     PageHeatmapComponent,
     HeatmapComponent
   ],
-  providers: [ MapService,GeocodingService ],
+  providers: [ MapService ],
   exports: [ RouterModule ]
 })
 export class HeatmapModule { }
