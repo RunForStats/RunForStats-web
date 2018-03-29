@@ -5,6 +5,7 @@ import {latLng, LatLng, tileLayer, circle, polygon} from 'leaflet';
 
 import * as L from 'leaflet';
 import 'leaflet.heat';
+import {StravaService} from '../../../../services/strava.service';
 
 
 @Component({
@@ -13,6 +14,11 @@ import 'leaflet.heat';
   styleUrls: ['heatmap.component.css']
 })
 export class HeatmapComponent implements OnInit {
+
+
+  map;
+  totalLines = [];
+  totalCoordinates = [];
 
   baseLayers = {
     'OpenStreetMap': tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
@@ -44,22 +50,27 @@ export class HeatmapComponent implements OnInit {
 
 
   mapReady(map: L.Map) {
-    map.addControl(L.control.zoom({position: 'topright'}));
 
-    this.http.get('https://mockactivities-jblcwvxsel.now.sh/myjsonfile.json')
-      .subscribe(res => {
-        this.showHeatmap(map, res, 'ciccio', 'blue');
-      });
+    this.map = map;
 
+    this.map.addControl(L.control.zoom({position: 'topright'}));
 
-    this.http.get('https://mockactivities-jblcwvxsel.now.sh/myjsonfile1.json')
-      .subscribe(res => {
-        this.showHeatmap(map, res, 'blascone', 'red');
-      });
+    // MOCKUP ACTIVITIES
+    //
+    // this.http.get('https://mockactivities-jblcwvxsel.now.sh/myjsonfile.json')
+    //   .subscribe(res => {
+    //     this.showHeatmap(map, res, 'ciccio', 'blue');
+    //   });
+    //
+    //
+    // this.http.get('https://mockactivities-jblcwvxsel.now.sh/myjsonfile1.json')
+    //   .subscribe(res => {
+    //     this.showHeatmap(map, res, 'blascone', 'red');
+    //   });
 
   }
 
-  constructor(private http: HttpClient) {
+  constructor(private stravaService: StravaService, private http: HttpClient) {
   }
 
 
@@ -67,18 +78,27 @@ export class HeatmapComponent implements OnInit {
     console.log('ngOnInit');
 
 
+
+    this.stravaService.getUserActivities().subscribe(
+      activities => {
+        activities.map(activity => {
+          this.stravaService.getActivityStream(activity).subscribe(streams => {
+            //this.siderBarContent += activity.name + ": " + streams[0].data.length + " points </br>";
+            //sidebar.setContent(this.siderBarContent);
+
+           this.showHeatmap(this.map,streams[0].data, activity.name, 'green');
+
+          });
+        });
+      }
+    );
   }
 
 
   showHeatmap(map: L.Map, json, name, color) {
 
-
-    const totalLines = [];
-    let totalCoordinates = [];
-
     const races = L.featureGroup();
     const currentRacePoints = [];
-
 
     // each point
     json.map(function (p) {
@@ -93,20 +113,22 @@ export class HeatmapComponent implements OnInit {
     });
 
 
-    totalCoordinates = totalCoordinates.concat(currentRacePoints);
+    this.totalCoordinates = this.totalCoordinates.concat(currentRacePoints);
     const currentLine = L.polyline(currentRacePoints, {weight: 1, opacity: 0.4, color: color});
-    totalLines.push(currentLine);
-    this.layersControl.overlays['Races ' + name] = currentLine;
-    totalLines.forEach(function (line) {
+    this.totalLines.push(currentLine);
+
+    this.totalLines.forEach(function (line) {
       line.addTo(races);
     });
 
-    const heat = L.heatLayer(totalCoordinates, {radius: 10});
+    const heat = L.heatLayer(this.totalCoordinates, {radius: 10});
 
-    const racesOverlayName = 'Races ' + name;
-    const heatmapOverlayName = 'Heatmap ' + name;
+    const racesOverlayName = 'Run ' + name;
+    const totalOverlayName = 'Total runs';
+    const heatmapOverlayName = 'Heatmap';
 
-    this.layersControl.overlays[racesOverlayName] = races;
+    this.layersControl.overlays[racesOverlayName] = currentLine;
+    this.layersControl.overlays[totalOverlayName] = races;
     this.layersControl.overlays[heatmapOverlayName] = heat;
   }
 

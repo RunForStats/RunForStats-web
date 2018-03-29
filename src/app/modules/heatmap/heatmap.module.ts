@@ -9,6 +9,7 @@ import { PageHeatmapComponent } from './components/page-heatmap/page-heatmap.com
 import { Routes, RouterModule } from '@angular/router';
 import { HeatmapComponent } from './components/heatmap/heatmap.component';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
+import {StravaService} from '../../services/strava.service';
 
 const routes: Routes = [
     { path: '', component: HeatmapComponent }
@@ -24,7 +25,7 @@ const routes: Routes = [
     PageHeatmapComponent,
     HeatmapComponent
   ],
-  providers: [ MapService ],
+  providers: [ MapService , StravaService ],
   exports: [ RouterModule ]
 })
 export class HeatmapModule { }
