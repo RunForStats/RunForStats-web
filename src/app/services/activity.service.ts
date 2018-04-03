@@ -1,6 +1,7 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Activity } from '../models/activity.model';
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {Activity} from '../models/activity.model';
+import {Observable} from '../../../node_modules/rxjs';
 
 @Injectable()
 export class ActivityService {
@@ -20,6 +21,13 @@ export class ActivityService {
   setActive(activity: Activity) {
     this.active = activity;
   }
+
+
+   syncStravaActivities(): Observable<boolean> {
+    console.log('syncing bla bla');
+    return  Observable.of(true).delay(5000);
+  }
+
 
 }
 

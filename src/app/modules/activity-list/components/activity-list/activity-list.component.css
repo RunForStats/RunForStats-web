@@ -11,7 +11,7 @@
     display: -ms-flexbox;
     display: flex;
     margin-bottom: 0;
-    
+
     list-style: none;
     padding-left: 0;
 }
@@ -62,12 +62,10 @@
 }
 
 .list-stats .stat-subtext {
-    color: #606065;
     font-size: 12px;
 }
 
 .stat-subtext {
     font-size: 12px;
     font-weight: 400;
-    color: #606065;
 }
