@@ -1,7 +1,12 @@
-<h5><i class="fas fa-sync-alt"></i>  Activity sync</h5>
+<h5><i class="fas fa-sync-alt"></i> Activity sync</h5>
 <div class="border p-3">
-<p>
- {{syncStatus}}
-</p>
-<button type="button" class="btn btn-success" (click)="syncStravaActivities()"><i class="fas fa-sync-alt"></i> Sync with Strava</button>
+  <small>
+  Copy all your activities from Strava to RunForStats
+  </small>
+  <p>
+    <button type="button" class="btn btn-success" (click)="syncStravaActivities()"><i class="fas fa-sync-alt"></i> Sync
+      with Strava
+    </button>
+    {{syncStatus}}
+  </p>
 </div>

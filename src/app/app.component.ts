@@ -19,6 +19,15 @@ export class AppComponent implements OnInit {
   constructor(private authenticationService: AuthenticationService,
               private router: Router,
               private route: ActivatedRoute) {
+
+    // check if logged every time route is changed
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        this.logged = this.authenticationService.isLogged();
+      }
+    });
+
+
   }
 
 
@@ -31,12 +40,6 @@ export class AppComponent implements OnInit {
       }
     );
 
-    // check if logged every time route is changed
-    this.router.events.subscribe(event => {
-      if (event instanceof NavigationEnd) {
-        this.authenticationService.isLogged();
-      }
-    });
   }
 
   logout() {
